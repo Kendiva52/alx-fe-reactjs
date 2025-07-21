@@ -1,7 +1,7 @@
 function MainContent(){
     return(
         
-            <main style={{ padding: '15px', fontSize: '18px', lineHeight: '1.6', color: '#333'}}>
+            <main style={{backgroundColor: 'navy', color: 'white', textAlign: 'centern'}}>
                 <p>i love to visit New York, Paris, and Tokyo.</p>
             </main>
         
