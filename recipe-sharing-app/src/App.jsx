@@ -3,6 +3,7 @@ import Home from './components/Home';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
 import FavoritesList from './components/FavoritesList';
+import RecipeList from './components/RecipeList'; 
 
 const App = () => (
   <Router>
@@ -10,12 +11,14 @@ const App = () => (
       <Link to="/">Home</Link>
       <Link to="/add">Add Recipe</Link>
       <Link to="/favorites">Favorites</Link>
+      <Link to="/recipes">All Recipes</Link>
     </nav>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/add" element={<AddRecipeForm />} />
       <Route path="/recipe/:id" element={<RecipeDetails />} />
       <Route path="/favorites" element={<FavoritesList />} />
+      <Route path="/recipes" element={<RecipeList />} />
     </Routes>
   </Router>
 );
