@@ -7,8 +7,12 @@ const FavoriteToggle = ({ recipeId }) => {
 
   const isFavorite = favorites.includes(recipeId);
 
-  const toggleFavorite = () => {
-    isFavorite ? removeFavorite(recipeId) : addFavorite(recipeId);
+   const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(recipeId);
+    } else {
+      addFavorite(recipeId);
+    }
   };
 
   return (
