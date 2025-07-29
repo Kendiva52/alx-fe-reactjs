@@ -1,14 +1,13 @@
-// components/EditRecipeForm.jsx
 import { useState } from 'react';
 import { useRecipeStore } from '../store/recipeStore';
 
-const EditRecipeForm = ({ recipe }) => {
+export default function EditRecipeForm = ({ recipe }) => {
   const [title, setTitle] = useState(recipe.title);
   const [description, setDescription] = useState(recipe.description);
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent form submission
     updateRecipe({ ...recipe, title, description });
   };
 
