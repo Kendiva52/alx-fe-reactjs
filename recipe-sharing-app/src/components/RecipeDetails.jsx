@@ -2,9 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useRecipeStore } from '../store/recipeStore';
 import EditRecipeForm from './EditRecipeForm';
 import DeleteRecipeButton from './DeleteRecipeButton';
+import FavoriteToggle from './FavoriteToggle';
 
-const RecipeDetails = () => {
+// components/RecipeDetails.jsx
+export default function RecipeDetails = () => {
   const { id } = useParams();
+  const recipeId = parseInt(id, 10);
   const recipe = useRecipeStore((state) =>
     state.recipes.find((r) => r.id === id)
   );
