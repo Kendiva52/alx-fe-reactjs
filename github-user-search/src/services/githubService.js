@@ -9,6 +9,12 @@ const githubAPI = axios.create({
   },
 });
 
+// Fetch basic user data
+export const fetchUserData = async (username) => {
+  const response = await githubAPI.get(`/users/${username}`);
+  return response.data;
+};
+
 // Advanced user search with optional filters
 export const searchUsers = async (username, location, minRepos) => {
   let query = '';
@@ -20,14 +26,13 @@ export const searchUsers = async (username, location, minRepos) => {
   const response = await githubAPI.get(`/search/users?q=${query}`);
   const users = response.data.items;
 
-  // Fetch detailed user data for each
   const detailedUsers = await Promise.all(
     users.map(async (user) => {
-      const userDetails = await githubAPI.get(`/users/${user.login}`);
-      return userDetails.data;
+      return fetchUserData(user.login); // use the function you exported above
     })
   );
 
   return detailedUsers;
 };
+
 
