@@ -19,7 +19,7 @@ const Search = () => {
       const data = await fetchUserData(username, location, minRepos);
       setUsers(data);
     } catch (err) {
-      setError('Failed to fetch users. Try again.');
+      setError('Looks like we cant find the user');
     } finally {
       setLoading(false);
     }
@@ -86,4 +86,5 @@ const Search = () => {
 };
 
 export default Search;
+
 
