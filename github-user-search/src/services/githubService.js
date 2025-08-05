@@ -1,38 +1,29 @@
-import axios from 'axios';
+import axios from "axios";
 
 const token = import.meta.env.VITE_APP_GITHUB_API_KEY;
 
-const githubAPI = axios.create({
-  baseURL: 'https://api.github.com',
-  headers: {
-    Authorization: `token ${token}`,
-  },
-});
+// Function to fetch user data based on username, location, and minimum repositories
+export const fetchUserData = async (username, location, minRepos, page = 1) => {
+  let query = "";
 
-// Fetch basic user data
-export const fetchUserData = async (username) => {
-  const response = await githubAPI.get(`/users/${username}`);
-  return response.data;
-};
-
-// Advanced user search with optional filters
-export const searchUsers = async (username, location, minRepos) => {
-  let query = '';
-
+  // Constructing the query based on provided parameters
   if (username) query += `${username} in:login`;
   if (location) query += ` location:${location}`;
   if (minRepos) query += ` repos:>=${minRepos}`;
 
-  const response = await githubAPI.get(`/search/users?q=${query}`);
-  const users = response.data.items;
+  if (!query) throw new Error("Please provide at least one search criteria");
 
-  const detailedUsers = await Promise.all(
-    users.map(async (user) => {
-      return fetchUserData(user.login); // use the function you exported above
-    })
+  const response = await axios.get(
+    `https://api.github.com/search/users?q=${encodeURIComponent(query)}&page=${page}&per_page=10`,
+    {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    }
   );
 
-  return detailedUsers;
+  return response.data; // Return the data from the response
 };
+
 
 
