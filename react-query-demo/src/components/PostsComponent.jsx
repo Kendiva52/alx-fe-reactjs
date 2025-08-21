@@ -1,40 +1,47 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const fetchPosts = async (page) => {
+const fetchPosts = async (page = 1) => {
   const { data } = await axios.get(
     `https://jsonplaceholder.typicode.com/posts?_limit=5&_page=${page}`
   );
   return data;
 };
 
-export default function PostsComponent({ page }) {
+export default function PostsComponent({ page = 1 }) {
   const {
     data,
-    error,
     isLoading,
+    isError,
+    error,
     isFetching,
+    isPreviousData,
   } = useQuery({
     queryKey: ["posts", page],
     queryFn: () => fetchPosts(page),
-    keepPreviousData: true,       // ✅ keeps old data while fetching new page
-    refetchOnWindowFocus: true,   // ✅ refetches when window regains focus
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
   });
 
   if (isLoading) return <p>Loading posts...</p>;
-  if (error) return <p>Error fetching posts 😢</p>;
+  if (isError) return <p>Error fetching posts: {error.message}</p>;
 
   return (
     <div>
       <h2 className="text-xl font-bold mb-2">Posts (Page {page})</h2>
-      <ul className="mb-2">
+      {isFetching && <p className="text-gray-500">Updating...</p>}
+      <ul className="list-disc pl-5">
         {data.map((post) => (
-          <li key={post.id} className="border-b py-1">
-            {post.title}
+          <li key={post.id} className="mb-2">
+            <strong>{post.title}</strong>
+            <p>{post.body}</p>
           </li>
         ))}
       </ul>
-      {isFetching && <p className="text-sm text-gray-500">Updating...</p>}
+      {isPreviousData && (
+        <p className="text-sm text-gray-500">Showing cached data...</p>
+      )}
     </div>
   );
 }
+
