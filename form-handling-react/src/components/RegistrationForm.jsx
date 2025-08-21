@@ -1,21 +1,33 @@
 import { useState } from "react";
 
 export default function RegistrationForm() {
-  // use separate states to match grader expectation
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let validationErrors = {};
 
-    if (!username || !email || !password) {
-      setError("All fields are required!");
+    if (!username) {
+      validationErrors.username = "Username is required";
+    }
+
+    if (!email) { 
+      validationErrors.email = "Email is required";
+    }
+
+    if (!password) {
+      validationErrors.password = "Password is required";
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
-    setError("");
 
+    setErrors({});
     console.log("Submitting:", { username, email, password });
     alert("User registered successfully (Controlled Components)!");
   };
@@ -23,8 +35,6 @@ export default function RegistrationForm() {
   return (
     <form onSubmit={handleSubmit} className="p-4 border rounded-md w-96">
       <h2 className="text-xl font-bold mb-4">Register (Controlled)</h2>
-
-      {error && <p className="text-red-500">{error}</p>}
 
       <div className="mb-2">
         <label>Username</label>
@@ -35,6 +45,7 @@ export default function RegistrationForm() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        {errors.username && <p className="text-red-500">{errors.username}</p>}
       </div>
 
       <div className="mb-2">
@@ -46,6 +57,7 @@ export default function RegistrationForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {errors.email && <p className="text-red-500">{errors.email}</p>}
       </div>
 
       <div className="mb-2">
@@ -54,9 +66,10 @@ export default function RegistrationForm() {
           type="password"
           name="password"
           className="border w-full p-2"
-          value={password}   
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {errors.password && <p className="text-red-500">{errors.password}</p>}
       </div>
 
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
@@ -65,4 +78,5 @@ export default function RegistrationForm() {
     </form>
   );
 }
+
 
