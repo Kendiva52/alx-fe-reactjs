@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function RegistrationForm() {
+  // state for the form
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -9,13 +10,16 @@ export default function RegistrationForm() {
 
   const [error, setError] = useState("");
 
+  // handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!formData.username || !formData.email || !formData.password) {
       setError("All fields are required!");
       return;
@@ -38,7 +42,7 @@ export default function RegistrationForm() {
           type="text"
           name="username"
           className="border w-full p-2"
-          value={formData.username}
+          value={formData.username}   // ✅ controlled
           onChange={handleChange}
         />
       </div>
@@ -49,7 +53,7 @@ export default function RegistrationForm() {
           type="email"
           name="email"
           className="border w-full p-2"
-          value={formData.email}
+          value={formData.email}   // ✅ controlled
           onChange={handleChange}
         />
       </div>
@@ -60,7 +64,7 @@ export default function RegistrationForm() {
           type="password"
           name="password"
           className="border w-full p-2"
-          value={formData.password}
+          value={formData.password}   // ✅ controlled
           onChange={handleChange}
         />
       </div>
@@ -71,4 +75,3 @@ export default function RegistrationForm() {
     </form>
   );
 }
-
