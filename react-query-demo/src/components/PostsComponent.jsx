@@ -21,6 +21,8 @@ export default function PostsComponent({ page = 1 }) {
     queryFn: () => fetchPosts(page),
     refetchOnWindowFocus: false,
     keepPreviousData: true,
+    staleTime: 1000 * 60, // 1 minute before data is considered stale
+    cacheTime: 1000 * 60 * 5, // 5 minutes before unused cache is garbage-collected
   });
 
   if (isLoading) return <p>Loading posts...</p>;
@@ -44,4 +46,5 @@ export default function PostsComponent({ page = 1 }) {
     </div>
   );
 }
+
 
